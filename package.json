@@ -1,0 +1,31 @@
+{
+  "name": "conrad-js",
+  "version": "0.1.0",
+  "description": "A tiny JavaScript jobs scheduler",
+  "homepage": "http://github.com/jacomyal/conrad.js",
+  "main": "src/conrad.js",
+  "keywords": [
+    "scheduler"
+  ],
+  "bugs": "http://github.com/jacomyal/conrad.js/issues",
+  "author": {
+    "name": "Alexis Jacomy",
+    "url": "http://github.com/jacomyal"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jacomyal/conrad.js.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jacomyal/conrad.js/blob/master/LICENSE.txt"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-qunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-closure-linter": "~0.1.0"
+  }
+}
