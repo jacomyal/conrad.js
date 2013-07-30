@@ -395,10 +395,6 @@
             _activateJob(_waitingJobs[k]);
             delete _waitingJobs[k];
           }
-
-        // Check for "end" callback:
-        if (typeof deadJob.end === 'function')
-          deadJob.end();
       }
     }
 
@@ -623,12 +619,17 @@
       // Remove the job from the hashes:
       for (i = 0, l = a.length; i < l; i++)
         if (v1 in a[i]) {
+          job = a[i][v1];
+
           if (_parameters.history) {
-            a.status = 'done';
-            _doneJobs.push(a[i][v1]);
+            job.status = 'done';
+            _doneJobs.push(job);
           }
 
-          _dispatch('jobEnded', __clone(a[i][v1]));
+          if (typeof job.end === 'function')
+            job.end();
+
+          _dispatch('jobEnded', __clone(job));
           delete a[i][v1];
           found = true;
         }
