@@ -3,7 +3,7 @@ conrad.js
 
 ***conrad* is a tiny JavaScript scheduler, developped by [Alexis Jacomy](http://github.com/jacomyal) at the [médialab](http://github.com/medialab). It is released under the [MIT License](https://raw.github.com/jacomyal/conrad.js/master/LICENSE.txt).**
 
-It has been initially built to replace the internal scheduler in (*an upcoming version of*) [sigma.js](http://sigmajs.org), that deals with graph layout algorithms and heavy canvas drawing processes.
+It has been initially built to replace the internal scheduler in - *an upcoming version of* - [sigma.js](http://sigmajs.org), that deals with graph layout algorithms and heavy canvas drawing processes.
 
 Here is how it works:
 
@@ -44,7 +44,7 @@ conrad.addJob({
 });
 ```
 
-#### Specify a count
+#### Specify how much times a job must be executed
 
 Instead of waiting for the job to return `false` to end it, it is possible to specify a number of times it as to be executed, with the key `count`:
 
@@ -61,7 +61,7 @@ conrad.addJob('myJob', {
 
 #### Catch a job end
 
-If an `end` function is specified, it will be executed when the job is ended.
+If an `end` function is specified, it will be executed when the job is ended or killed.
 
 ```javascript
 var executed = 0;
@@ -127,7 +127,7 @@ conrad.addJob({
 
 #### Kill jobs
 
-*conrad* provides two different methods
+*conrad* provides two different methods to kill manually jobs that are running.
 
 ```javascript
 // Kill one job:
@@ -237,7 +237,7 @@ The latest minified version is available here:
 
 You can also minify your own version with [Grunt](http://gruntjs.com/):
 
- - First, install [Node.js](http://nodejs.org/), [NPM](https://npmjs.org/) and [Grunt](http://gruntjs.com/installing-grunt).
+ - Install [Node.js](http://nodejs.org/), [NPM](https://npmjs.org/) and [Grunt](http://gruntjs.com/installing-grunt).
  - Use `npm install` to install *conrad* development dependencies.
  - Use `grunt` to successively lint sources, launch unit tests, and minify the code with [Uglify](https://github.com/mishoo/UglifyJS).
 
