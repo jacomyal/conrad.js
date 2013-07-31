@@ -722,6 +722,15 @@
   }
 
   /**
+   * Returns true if conrad is currently running, and false else.
+   *
+   * @return {Boolean} Returns _isRunning.
+   */
+  function _getIsRunning() {
+    return !!_isRunning;
+  }
+
+  /**
    * Unreference every jobs that are stored in the _doneJobs object. It will
    * not be possible anymore to get stats about these jobs, but it will release
    * the memory.
@@ -952,6 +961,7 @@
     killAll: _killAll,
     settings: _settings,
     getStats: _getStats,
+    isRunning: _getIsRunning,
     clearHistory: _clearHistory,
 
     // Events management:
