@@ -618,11 +618,12 @@
             _doneJobs.push(job);
           }
 
+          _dispatch('jobEnded', __clone(job));
+          delete a[i][v1];
+
           if (typeof job.end === 'function')
             job.end();
 
-          _dispatch('jobEnded', __clone(job));
-          delete a[i][v1];
           found = true;
         }
 
@@ -658,6 +659,9 @@
       for (k in jobs) {
         jobs[k].status = 'done';
         _doneJobs.push(jobs[k]);
+
+        if (typeof jobs[k].end === 'function')
+          jobs[k].end();
       }
 
     // Reinitialize the different jobs lists:
