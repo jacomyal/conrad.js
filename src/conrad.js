@@ -148,9 +148,7 @@
   function _bind(events, handler) {
     var i,
         event,
-        events,
-        eArray,
-        handler;
+        eArray;
 
     if (!arguments.length)
       return this;
@@ -161,8 +159,6 @@
       for (events in arguments[0])
         _bind(events, arguments[0][events]);
     else if (arguments.length > 1) {
-      events = arguments[0];
-      handler = arguments[1];
       eArray =
         Object.prototype.toString.call(events) === '[object Array]' ?
           events :
@@ -244,7 +240,6 @@
   function _dispatch(events, data) {
     var i,
         j,
-        a,
         event,
         eventName,
         eArray = Object.prototype.toString.call(events) === '[object Array]' ?
@@ -257,7 +252,6 @@
       eventName = eArray[i];
 
       if (_handlers[eventName]) {
-        a = [];
         event = {
           type: eventName,
           data: data || {}
@@ -265,8 +259,6 @@
 
         for (j in _handlers[eventName])
           _handlers[eventName][j].handler(event);
-
-        _handlers[eventName] = a;
       }
     }
 
