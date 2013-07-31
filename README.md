@@ -222,6 +222,7 @@ Here are some tips and guidelines about how and when to use *conrad*:
 
  - To make *conrad* works well, jobs have to last less than the expected time of a frame - something like 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number a function calls.
  - It is possible to use *conrad* to avoid interface freezing during drawing. Nevertheless, it should not be used to deal with animations, since the speed of the processing will strongly depends on the client computer power.
+ - *conrad* works only with `window.setTimeout(fn, 0)` and does not use Web Workers (at least yet). It will work well until you call too often `window.setTimeout()`. Prefer using `conrad.bind("enterFrame")` if *conrad* is currently running.
 
 ## Build
 
