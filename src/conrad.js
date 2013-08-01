@@ -354,9 +354,6 @@
         time,
         deadJob;
 
-    // Set the _isRunning flag to false:
-    _isRunning = false;
-
     // Deal with the newly added jobs (the _jobs object):
     for (k in _jobs) {
       job = _jobs[k];
@@ -369,12 +366,14 @@
       delete _jobs[k];
     }
 
+    // Set the _isRunning flag to false if there are no running job:
+    _isRunning = !!_sortedByPriorityJobs.length;
+
     // Deal with the running jobs (the _runningJobs object):
     while (
       _sortedByPriorityJobs.length &&
       __dateNow() - _lastFrameTime < _parameters.frameDuration
     ) {
-      _isRunning = true;
       deadJob = _executeFirstJob();
 
       // Deal with the case where the job has ended:
