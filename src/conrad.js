@@ -499,8 +499,13 @@
         _addJob(v1[i].id, __extend(v1[i], v2));
 
       _noStart = false;
-      if (!_isRunning)
+      if (!_isRunning) {
+        // Update the _lastFrameTime:
+        _lastFrameTime = __dateNow();
+
+        _dispatch('start');
         _loop();
+      }
     } else if (typeof v1 === 'object') {
       // One job (object):
       if (typeof v1.id === 'string')
@@ -520,8 +525,13 @@
             _addJob(i, __extend(v1[i], v2));
 
         _noStart = false;
-        if (!_isRunning)
+        if (!_isRunning) {
+          // Update the _lastFrameTime:
+          _lastFrameTime = __dateNow();
+
+          _dispatch('start');
           _loop();
+        }
       }
 
     // One job (string, *):
