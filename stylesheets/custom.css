@@ -1,0 +1,16 @@
+#main-content h1:before,
+#main-content h2:before,
+#main-content h3:before,
+#main-content h4:before,
+#main-content h5:before,
+#main-content h6:before {
+  content: '';
+  padding-right: 0;
+  margin-left: 0;
+}
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
+}
