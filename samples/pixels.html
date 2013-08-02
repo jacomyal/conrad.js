@@ -1,0 +1,111 @@
+<html>
+<head>
+  <title>conrad sample with canvases</title>
+  <style>
+    #canvases {
+      text-align: center;
+    }
+
+    canvas {
+      width: 400px;
+      height: 400px;
+      background: #888;
+    }
+  </style>
+</head>
+<body>
+  <div id="caption">
+    <p>
+      In this example, there are two jobs per canvas: One drawing 1000 random white pixels and the other one drawing 1000 random black pixels.
+    </p>
+    <p>
+      In the first canvas, both jobs have the same weight. In the second, the white job has a weight of 2 (which makes the canvas brighter). Finally, in the third canvas, the white job has a weight of 4 (which makes the canvas even brighter).
+    </p>
+    <p>
+      Clicking a canvas will stop / start its jobs. Stopping the jobs of a canvas will free some CPU time, and the jobs that are still running will "go faster" (they will be executed more often).
+    </p>
+  </div>
+  <div id="canvases">
+    <canvas id="canvas1" width="400" height="400"></canvas>
+    <canvas id="canvas2" width="400" height="400"></canvas>
+    <canvas id="canvas3" width="400" height="400"></canvas>
+  </div>
+  <script src="../src/conrad.js"></script>
+  <script>
+    (function() {
+      function colorPixelJobFactory(canvas, color, count) {
+        var ctx = canvas.getContext('2d');
+
+        return function() {
+          ctx.fillStyle = color;
+
+          for (var i = count; i; i--)
+            ctx.fillRect(
+              Math.floor(canvas.width * Math.random()),
+              Math.floor(canvas.height * Math.random()),
+              1,
+              1
+            );
+
+          return true;
+        }
+      }
+
+      var jobs = {
+        canvas1: [
+          {
+            id: 'canvas1_white',
+            job: colorPixelJobFactory(document.getElementById('canvas1'), '#fff', 1000),
+          },
+          {
+            id: 'canvas1_black',
+            job: colorPixelJobFactory(document.getElementById('canvas1'), '#000', 1000)
+          }
+        ],
+        canvas2: [
+          {
+            id: 'canvas2_white',
+            job: colorPixelJobFactory(document.getElementById('canvas2'), '#fff', 1000),
+            weight: 2
+          },
+          {
+            id: 'canvas2_black',
+            job: colorPixelJobFactory(document.getElementById('canvas2'), '#000', 1000)
+          }
+        ],
+        canvas3: [
+          {
+            id: 'canvas3_white',
+            job: colorPixelJobFactory(document.getElementById('canvas3'), '#fff', 1000),
+            weight: 4
+          },
+          {
+            id: 'canvas3_black',
+            job: colorPixelJobFactory(document.getElementById('canvas3'), '#000', 1000)
+          }
+        ]
+      };
+
+      // Bind "click" events:
+      Array.prototype.forEach.call(
+        document.querySelectorAll('canvas'),
+        function(el) {
+          el.addEventListener('click', function(e) {
+            var a,
+                id = e.target.id;
+
+            if ((a = jobs[id].filter(function(o) { return conrad.hasJob(o.id); })).length)
+              conrad.killJob(a.map(function(o) { return o.id; }));
+            else
+              conrad.addJob(jobs[id]);
+          });
+        }
+      );
+
+      // Start all jobs:
+      for (var k in jobs)
+        conrad.addJob(jobs[k]);
+    })();
+  </script>
+</body>
+</html>
