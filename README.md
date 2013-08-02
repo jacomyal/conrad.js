@@ -3,7 +3,7 @@ conrad.js
 
 ***conrad* is a tiny JavaScript scheduler, developped by [Alexis Jacomy](http://github.com/jacomyal) at the [médialab](http://github.com/medialab). It is released under the [MIT License](https://raw.github.com/jacomyal/conrad.js/master/LICENSE.txt).**
 
-It has been initially built to replace the internal scheduler in - *an upcoming version of* - [sigma.js](http://sigmajs.org), that deals with graph layout algorithms and heavy canvas drawing processes.
+It has been initially built to replace the internal scheduler in *an upcoming version of* [sigma.js](http://sigmajs.org), that deals with graph layout algorithms and heavy canvas drawing processes.
 
 Here is how it works:
 
@@ -145,7 +145,7 @@ conrad.killAll();
 
 #### Monitoring
 
-There are two features dedicated to monitor what is happening in *conrad*. First, the method `conrad.getStats()` returns some interesting stats about jobs that wait, run or are ended:
+There are two features dedicated to monitor what is happening in *conrad*. First, the method `conrad.getStats()` returns an array of jobs, with every data stored about them (average time per job, number of times the job has been executed yet, etc...):
 
 ```javascript
 // Getting all done jobs:
@@ -162,15 +162,20 @@ conrad.getStats(/^myJob_/);
 
 // Getting all running jobs with id matching a regular expression:
 conrad.getStats('running', /^myJob_/);
+
+// Logging in the console the average time per running job:
+conrad.getStats('running').forEach(function(job) {
+  console.log(job.id, job.averageTime);
+});
 ```
 
 Since storing everything about the jobs when they die can be memory expensive, it is possible to disable the history. Also, the method `conrad.clearHistory()` empties every data about done jobs.
 
 ```javascript
-// To delete history:
+// Keeping conrad from storing history:
 conrad.settings('history', false);
 
-// To clear history:
+// Clearing history:
 conrad.clearHistory();
 ```
 
@@ -222,7 +227,7 @@ Here are some tips and guidelines about how and when to use *conrad*:
 
  - To make *conrad* works well, jobs have to last less than the expected time of a frame - something like 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number a function calls.
  - It is possible to use *conrad* to avoid interface freezing during drawing. Nevertheless, it should not be used to deal with animations, since the speed of the processing will strongly depends on the client computer power.
- - *conrad* works only with `window.setTimeout(fn, 0)` and does not use Web Workers (at least yet). It will work well until you call too often `window.setTimeout()`. Prefer using `conrad.bind("enterFrame")` if *conrad* is currently running.
+ - *conrad* works only with `window.setTimeout(fn, 0)` and does not use Web Workers (at least yet). It will work well until you call too often `window.setTimeout()` by yourself while *conrad* is running.
 
 ## Build
 
@@ -240,12 +245,10 @@ You can also minify your own version with [Grunt](http://gruntjs.com/):
 
  - Install [Node.js](http://nodejs.org/), [NPM](https://npmjs.org/) and [Grunt](http://gruntjs.com/installing-grunt).
  - Use `npm install` to install *conrad* development dependencies.
- - Use `grunt` to successively lint sources, launch unit tests, and minify the code with [Uglify](https://github.com/mishoo/UglifyJS).
+ - Use `grunt` to check sources linting, launch unit tests, and minify the code with [Uglify](https://github.com/mishoo/UglifyJS).
 
 ## Contribute
 
-You can contribute by submitting [issues](http://github.com/jacomyal/conrad.js/issues) and proposing [pull requests](http://github.com/jacomyal/conrad.js/pulls). Be sure to successfully run `grunt` **before submitting any pull request**, to check unit tests and sources lint.
+**Contributions are welcome!** You can contribute by submitting [issues](http://github.com/jacomyal/conrad.js/issues) and proposing [pull requests](http://github.com/jacomyal/conrad.js/pulls). Be sure to successfully run `grunt` **before submitting any pull request**, to check unit tests and sources lint.
 
 The whole source code is validated by the [Google Closure Linter](https://developers.google.com/closure/utilities/), and the comments are written in [JSDoc](http://en.wikipedia.org/wiki/JSDoc) (tags description is available [here](https://developers.google.com/closure/compiler/docs/js-for-compiler)).
-
-Finally, the change log is available [here](https://github.com/jacomyal/conrad.js/blob/master/CHANGELOG.md).
