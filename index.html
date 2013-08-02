@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,6 +8,7 @@
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/custom.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
     <!--[if lt IE 9]>
@@ -28,9 +30,6 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>
-<a name="conradjs" class="anchor" href="#conradjs"><span class="octicon octicon-link"></span></a>conrad.js</h1>
-
 <p><strong><em>conrad</em> is a tiny JavaScript scheduler, developped by <a href="http://github.com/jacomyal">Alexis Jacomy</a> at the <a href="http://github.com/medialab">médialab</a>. It is released under the <a href="https://raw.github.com/jacomyal/conrad.js/master/LICENSE.txt">MIT License</a>.</strong></p>
 
 <p>It has been initially built to replace the internal scheduler in <em>an upcoming version of</em> <a href="http://sigmajs.org">sigma.js</a>, that deals with graph layout algorithms and heavy canvas drawing processes.</p>
@@ -40,29 +39,26 @@
 <ol>
 <li>First, you need to cut your tasks as small jobs.</li>
 <li>These jobs are functions that will be executed many times to complete the task.</li>
-<li>
-<em>conrad</em> will execute these jobs such that they each take the same "computation time".</li>
+<li><em>conrad</em> will execute these jobs such that they each take the same &quot;computation time&quot;.</li>
 <li>To avoid interface freezing, rendering frames are requested when needed.</li>
-</ol><h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+</ol>
 
-<h4>
-<a name="add-a-single-job" class="anchor" href="#add-a-single-job"><span class="octicon octicon-link"></span></a>Add a single job</h4>
+<h2 id="toc_0">Documentation</h2>
 
-<p>By default, a job is executed until it returns a "falsy" value:</p>
+<h3 id="toc_1">Add a single job</h3>
 
+<p>By default, a job is executed until it returns a &quot;falsy&quot; value:</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">'myJob'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">&#39;myJob&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="o">++</span><span class="nx">executed</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="add-several-jobs-simultaneously" class="anchor" href="#add-several-jobs-simultaneously"><span class="octicon octicon-link"></span></a>Add several jobs simultaneously</h4>
+<h3 id="toc_2">Add several jobs simultaneously</h3>
 
 <p>It is possible to add several jobs at the same time, to avoid a job starting before others are actually added:</p>
-
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nx">executed2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -74,45 +70,42 @@
     <span class="k">return</span> <span class="o">++</span><span class="nx">executed2</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="specify-how-much-times-a-job-must-be-executed" class="anchor" href="#specify-how-much-times-a-job-must-be-executed"><span class="octicon octicon-link"></span></a>Specify how much times a job must be executed</h4>
+<h3 id="toc_3">Specify how much times a job must be executed</h3>
 
 <p>Instead of waiting for the job to return <code>false</code> to end it, it is possible to specify a number of times it as to be executed, with the key <code>count</code>:</p>
-
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">'myJob'</span><span class="p">,</span> <span class="p">{</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">&#39;myJob&#39;</span><span class="p">,</span> <span class="p">{</span>
   <span class="nx">count</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
   <span class="nx">job</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">executed</span><span class="o">++</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="catch-a-job-end" class="anchor" href="#catch-a-job-end"><span class="octicon octicon-link"></span></a>Catch a job end</h4>
+<h3 id="toc_4">Catch a job end</h3>
 
 <p>If an <code>end</code> function is specified, it will be executed when the job is ended or killed.</p>
-
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">'myJob'</span><span class="p">,</span> <span class="p">{</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">&#39;myJob&#39;</span><span class="p">,</span> <span class="p">{</span>
   <span class="nx">job</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="o">++</span><span class="nx">executed</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
   <span class="p">},</span>
   <span class="nx">end</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Job executed '</span> <span class="o">+</span> <span class="nx">executed</span> <span class="o">+</span> <span class="s1">' times.'</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Job executed &#39;</span> <span class="o">+</span> <span class="nx">executed</span> <span class="o">+</span> <span class="s1">&#39; times.&#39;</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="queue-jobs" class="anchor" href="#queue-jobs"><span class="octicon octicon-link"></span></a>Queue jobs</h4>
+<h3 id="toc_5">Queue jobs</h3>
 
 <p>Adding an <code>after</code> string to a job will make it start only when a job with the specified id ends.</p>
-
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nx">executed2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -121,19 +114,18 @@
     <span class="k">return</span> <span class="o">++</span><span class="nx">executed1</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
   <span class="p">},</span>
   <span class="nx">myJob2</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">after</span><span class="o">:</span> <span class="s1">'job1'</span><span class="p">,</span>
+    <span class="nx">after</span><span class="o">:</span> <span class="s1">&#39;job1&#39;</span><span class="p">,</span>
     <span class="nx">job</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
       <span class="k">return</span> <span class="o">++</span><span class="nx">executed2</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="weighted-jobs" class="anchor" href="#weighted-jobs"><span class="octicon octicon-link"></span></a>Weighted jobs</h4>
+<h3 id="toc_6">Weighted jobs</h3>
 
-<p>It is possible to weight jobs to modify the priorities. The default <code>weight</code> value is 1. In the following example, both <code>"myJob1"</code> and  <code>"myJob2"</code> last around 10ms. <code>"myJob1"</code> must be executed 10 times and <code>"myJob2"</code> 20. They will both end at the same time, because  <code>"myJob2"</code> as a <code>weight</code> of 2, and so will have twice more "*computer time*" than <code>"myJob1"</code>.</p>
-
+<p>It is possible to weight jobs to modify the priorities. The default <code>weight</code> value is 1. In the following example, both <code>&quot;myJob1&quot;</code> and  <code>&quot;myJob2&quot;</code> last around 10ms. <code>&quot;myJob1&quot;</code> must be executed 10 times and <code>&quot;myJob2&quot;</code> 20. They will both end at the same time, because  <code>&quot;myJob2&quot;</code> as a <code>weight</code> of 2, and so will have twice more &quot;*computer time*&quot; than <code>&quot;myJob1&quot;</code>.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nx">executed2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -155,92 +147,91 @@
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="kill-jobs" class="anchor" href="#kill-jobs"><span class="octicon octicon-link"></span></a>Kill jobs</h4>
+<h3 id="toc_7">Kill jobs</h3>
 
 <p><em>conrad</em> provides two different methods to kill manually jobs that are running.</p>
-
 <div class="highlight"><pre><span class="c1">// Kill one job:</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">conrad</span><span class="p">.</span><span class="nx">hasJob</span><span class="p">(</span><span class="s1">'myJob1'</span><span class="p">))</span>
-  <span class="nx">conrad</span><span class="p">.</span><span class="nx">killJob</span><span class="p">(</span><span class="s1">'myJob1'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">conrad</span><span class="p">.</span><span class="nx">hasJob</span><span class="p">(</span><span class="s1">&#39;myJob1&#39;</span><span class="p">))</span>
+  <span class="nx">conrad</span><span class="p">.</span><span class="nx">killJob</span><span class="p">(</span><span class="s1">&#39;myJob1&#39;</span><span class="p">);</span>
 
 <span class="c1">// Kill some jobs:</span>
-<span class="kd">var</span> <span class="nx">jobsToKill</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'myJob1'</span><span class="p">,</span> <span class="s1">'myJob2'</span><span class="p">,</span> <span class="s1">'myJob3'</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">jobsToKill</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;myJob1&#39;</span><span class="p">,</span> <span class="s1">&#39;myJob2&#39;</span><span class="p">,</span> <span class="s1">&#39;myJob3&#39;</span><span class="p">];</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">jobsToKill</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">conrad</span><span class="p">.</span><span class="nx">hasJob</span><span class="p">))</span>
   <span class="nx">conrad</span><span class="p">.</span><span class="nx">killJob</span><span class="p">(</span><span class="nx">jobsToKill</span><span class="p">);</span>
 
 <span class="c1">// Kill all jobs:</span>
 <span class="nx">conrad</span><span class="p">.</span><span class="nx">killAll</span><span class="p">();</span>
-</pre></div>
+</pre>
+</div>
 
-<h4>
-<a name="monitoring" class="anchor" href="#monitoring"><span class="octicon octicon-link"></span></a>Monitoring</h4>
+<h3 id="toc_8">Monitoring</h3>
 
 <p>There are two features dedicated to monitor what is happening in <em>conrad</em>. First, the method <code>conrad.getStats()</code> returns an array of jobs, with every data stored about them (average time per job, number of times the job has been executed yet, etc...):</p>
-
 <div class="highlight"><pre><span class="c1">// Getting all done jobs:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">'done'</span><span class="p">);</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">);</span>
 
 <span class="c1">// Getting all running jobs:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">'running'</span><span class="p">);</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">&#39;running&#39;</span><span class="p">);</span>
 
-<span class="c1">// Getting all jobs with id "myJobId":</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">'myJobId'</span><span class="p">);</span>
+<span class="c1">// Getting all jobs with id &quot;myJobId&quot;:</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">&#39;myJobId&#39;</span><span class="p">);</span>
 
 <span class="c1">// Getting all jobs with id matching a regular expression:</span>
 <span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="sr">/^myJob_/</span><span class="p">);</span>
 
 <span class="c1">// Getting all running jobs with id matching a regular expression:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">'running'</span><span class="p">,</span> <span class="sr">/^myJob_/</span><span class="p">);</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">&#39;running&#39;</span><span class="p">,</span> <span class="sr">/^myJob_/</span><span class="p">);</span>
 
 <span class="c1">// Logging in the console the average time per running job:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">'running'</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">job</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">getStats</span><span class="p">(</span><span class="s1">&#39;running&#39;</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">job</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">job</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">averageTime</span><span class="p">);</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
 <p>Since storing everything about the jobs when they die can be memory expensive, it is possible to disable the history. Also, the method <code>conrad.clearHistory()</code> empties every data about done jobs.</p>
-
 <div class="highlight"><pre><span class="c1">// Keeping conrad from storing history:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">settings</span><span class="p">(</span><span class="s1">'history'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">settings</span><span class="p">(</span><span class="s1">&#39;history&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="c1">// Clearing history:</span>
 <span class="nx">conrad</span><span class="p">.</span><span class="nx">clearHistory</span><span class="p">();</span>
-</pre></div>
+</pre>
+</div>
 
-<p>Also, <em>conrad</em> dispatches custom events when some actions are executed (<code>"start"</code>, <code>"stop"</code>, <code>"enterFrame"</code>...). The methods <code>conrad.bind()</code> and <code>conrad.unbind()</code> make possible to bind and unbind functions to these events.</p>
-
+<p>Also, <em>conrad</em> dispatches custom events when some actions are executed (<code>&quot;start&quot;</code>, <code>&quot;stop&quot;</code>, <code>&quot;enterFrame&quot;</code>...). The methods <code>conrad.bind()</code> and <code>conrad.unbind()</code> make possible to bind and unbind functions to these events.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">jobAddedHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Job "'</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">'" added.'</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Job &quot;&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;&quot; added.&#39;</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">jobStartedHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Job "'</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">'" started.'</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Job &quot;&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;&quot; started.&#39;</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">jobEndedHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Job "'</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">'" ended.'</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Job &quot;&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;&quot; ended.&#39;</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">stopHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'conrad has stopped, let\'s unbind our handlers.'</span><span class="p">);</span>
-      <span class="nx">conrad</span><span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">'jobAdded'</span><span class="p">,</span> <span class="nx">jobAddedHandler</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">'jobStarted'</span><span class="p">,</span> <span class="nx">jobStartedHandler</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">'jobEnded'</span><span class="p">,</span> <span class="nx">jobEndedHandler</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">'stop'</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;conrad has stopped, let\&#39;s unbind our handlers.&#39;</span><span class="p">);</span>
+      <span class="nx">conrad</span><span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">&#39;jobAdded&#39;</span><span class="p">,</span> <span class="nx">jobAddedHandler</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">&#39;jobStarted&#39;</span><span class="p">,</span> <span class="nx">jobStartedHandler</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">&#39;jobEnded&#39;</span><span class="p">,</span> <span class="nx">jobEndedHandler</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="s1">&#39;stop&#39;</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
 <span class="c1">// Bind handlers:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">'jobAdded'</span><span class="p">,</span> <span class="nx">jobAddedHandler</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">'jobStarted'</span><span class="p">,</span> <span class="nx">jobStartedHandler</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">'jobEnded'</span><span class="p">,</span> <span class="nx">jobEndedHandler</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">'stop'</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">);</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;jobAdded&#39;</span><span class="p">,</span> <span class="nx">jobAddedHandler</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;jobStarted&#39;</span><span class="p">,</span> <span class="nx">jobStartedHandler</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;jobEnded&#39;</span><span class="p">,</span> <span class="nx">jobEndedHandler</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;stop&#39;</span><span class="p">,</span> <span class="nx">stopHandler</span><span class="p">);</span>
 
 <span class="c1">// Add the job:</span>
-<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">'myJob'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nx">conrad</span><span class="p">.</span><span class="nx">addJob</span><span class="p">(</span><span class="s1">&#39;myJob&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="o">++</span><span class="nx">executed</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
 <span class="p">});</span>
-</pre></div>
+</pre>
+</div>
 
 <p>The events dispatched by <em>conrad</em> are:</p>
 
@@ -251,24 +242,23 @@
 <li><code>stop</code></li>
 <li><code>start</code></li>
 <li><code>enterFrame</code></li>
-</ul><h4>
-<a name="some-guidelines" class="anchor" href="#some-guidelines"><span class="octicon octicon-link"></span></a>Some guidelines</h4>
+</ul>
+
+<h3 id="toc_9">Some guidelines</h3>
 
 <p>Here are some tips and guidelines about how and when to use <em>conrad</em>:</p>
 
 <ul>
 <li>To make <em>conrad</em> works well, jobs have to last less than the expected time of a frame - something like 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number a function calls.</li>
 <li>It is possible to use <em>conrad</em> to avoid interface freezing during drawing. Nevertheless, it should not be used to deal with animations, since the speed of the processing will strongly depends on the client computer power.</li>
-<li>
-<em>conrad</em> works only with <code>window.setTimeout(fn, 0)</code> and does not use Web Workers (at least yet). It will work well until you call too often <code>window.setTimeout()</code> by yourself while <em>conrad</em> is running.</li>
-</ul><h2>
-<a name="build" class="anchor" href="#build"><span class="octicon octicon-link"></span></a>Build</h2>
+<li><em>conrad</em> works only with <code>window.setTimeout(fn, 0)</code> and does not use Web Workers (at least yet). It will work well until you call too often <code>window.setTimeout()</code> by yourself while <em>conrad</em> is running.</li>
+</ul>
+
+<h2 id="toc_10">Build</h2>
 
 <p>To use it, clone the repository:</p>
-
 <pre><code>git clone git@github.com:jacomyal/conrad.js.git
 </code></pre>
-
 <p>The latest minified version is available here:</p>
 
 <p><a href="https://raw.github.com/jacomyal/conrad.js/master/build/conrad.min.js">https://raw.github.com/jacomyal/conrad.js/master/build/conrad.min.js</a></p>
@@ -279,27 +269,23 @@
 <li>Install <a href="http://nodejs.org/">Node.js</a>, <a href="https://npmjs.org/">NPM</a> and <a href="http://gruntjs.com/installing-grunt">Grunt</a>.</li>
 <li>Use <code>npm install</code> to install <em>conrad</em> development dependencies.</li>
 <li>Use <code>grunt</code> to check sources linting, launch unit tests, and minify the code with <a href="https://github.com/mishoo/UglifyJS">Uglify</a>.</li>
-</ul><h2>
-<a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
+</ul>
+
+<h2 id="toc_11">Contribute</h2>
 
 <p><strong>Contributions are welcome!</strong> You can contribute by submitting <a href="http://github.com/jacomyal/conrad.js/issues">issues</a> and proposing <a href="http://github.com/jacomyal/conrad.js/pulls">pull requests</a>. Be sure to successfully run <code>grunt</code> <strong>before submitting any pull request</strong>, to check unit tests and sources lint.</p>
 
 <p>The whole source code is validated by the <a href="https://developers.google.com/closure/utilities/">Google Closure Linter</a>, and the comments are written in <a href="http://en.wikipedia.org/wiki/JSDoc">JSDoc</a> (tags description is available <a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">here</a>).</p>
         </section>
-
         <aside id="sidebar">
-          <a href="https://github.com/jacomyal/conrad.js/zipball/master" class="button">
+          <a href="https://raw.github.com/jacomyal/conrad.js/master/build/conrad.min.js" class="button">
             <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/jacomyal/conrad.js/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
+            conrad.min.js
           </a>
 
-          <p class="repo-owner"><a href="https://github.com/jacomyal/conrad.js"></a> is maintained by <a href="https://github.com/jacomyal">jacomyal</a>.</p>
+          <p class="repo-owner"><a href="https://github.com/jacomyal/conrad.js"><em>conrad.js</em></a> is maintained by <a href="https://github.com/jacomyal">jacomyal</a>.</p>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+          <p>This page uses the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a> from <a href="https://pages.github.com">GitHub Pages</a>.</p>
         </aside>
       </div>
     </div>
