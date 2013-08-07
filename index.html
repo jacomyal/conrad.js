@@ -23,14 +23,14 @@
       <div class="inner">
         <h1>conrad.js</h1>
         <h2>A tiny JavaScript scheduler</h2>
-        <a href="https://github.com/jacomyal/conrad.js" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/jacomyal/conrad.js" class="button"><small>View project on </small>GitHub</a>
       </div>
     </header>
 
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-<p><strong><em>conrad</em> is a tiny JavaScript scheduler, developped by <a href="http://github.com/jacomyal">Alexis Jacomy</a> at the <a href="http://github.com/medialab">médialab</a>. It is released under the <a href="https://raw.github.com/jacomyal/conrad.js/master/LICENSE.txt">MIT License</a>.</strong></p>
+<p><strong><em>conrad</em> is a tiny JavaScript scheduler, developped by <a href="http://github.com/jacomyal">Alexis Jacomy</a> at the <a href="http://github.com/medialab">médialab</a>, to help you dealing with heavy and independant tasks in your JavaScript projects. It is released under the <a href="https://raw.github.com/jacomyal/conrad.js/master/LICENSE.txt">MIT License</a>.</strong></p>
 
 <p>It has been initially built to replace the internal scheduler in <em>an upcoming version of</em> <a href="http://sigmajs.org">sigma.js</a>, that deals with graph layout algorithms and heavy canvas drawing processes.</p>
 
@@ -39,13 +39,60 @@
 <ol>
 <li>First, you need to cut your tasks as small jobs.</li>
 <li>These jobs are functions that will be executed many times to complete the task.</li>
-<li><em>conrad</em> will execute these jobs such that they each take the same &quot;computation time&quot;.</li>
+<li><em>conrad</em> will execute these jobs such that they each take the same CPU time.</li>
 <li>To avoid interface freezing, rendering frames are requested when needed.</li>
 </ol>
 
-<h2 id="toc_0">Documentation</h2>
+<h2 id="toc_0">Example</h2>
 
-<h3 id="toc_1">Add a single job</h3>
+<p>Here is an example to illustrate how <em>conrad</em> works and what it does. Here are 3 canvases, each with two jobs: One drawing 1000 random bright pixels and the other one drawing 1000 random dark pixels.</p>
+
+<p>In the first canvas, both jobs have the same weight. In the second, the bright job has a weight of 2 (which makes the canvas brighter). Finally, in the third canvas, the bright job has a weight of 4 (which makes the canvas even brighter).</p>
+
+<p>Clicking a canvas will stop / start its jobs.</p>
+
+<div id="canvases">
+  <canvas id="canvas1"></canvas>
+  <canvas id="canvas2"></canvas>
+  <canvas id="canvas3"></canvas>
+</div>
+
+<style>
+  #canvases canvas {
+    border: solid 1px #f2f2f2;
+  }
+
+  @media (min-width: 680px) {
+    #canvases {
+      text-align: center;
+    }
+
+    #canvases canvas {
+      width: 200px;
+      height: 200px;
+      margin-left: 5px;
+    }
+
+    #canvases canvas:first-child {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    #canvases canvas {
+      width: 100%;
+      height: 100px;
+      display: block;
+      margin-bottom: 3px;
+    }
+  }
+</style>
+
+<p>Stopping the jobs of a canvas will free some CPU time, and the jobs that are still running will &quot;go faster&quot; (they will be executed more often)</p>
+
+<h2 id="toc_1">Documentation</h2>
+
+<h3 id="toc_2">Add a single job</h3>
 
 <p>By default, a job is executed until it returns a &quot;falsy&quot; value:</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -56,7 +103,7 @@
 </pre>
 </div>
 
-<h3 id="toc_2">Add several jobs simultaneously</h3>
+<h3 id="toc_3">Add several jobs simultaneously</h3>
 
 <p>It is possible to add several jobs at the same time, to avoid a job starting before others are actually added:</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -73,7 +120,7 @@
 </pre>
 </div>
 
-<h3 id="toc_3">Specify how much times a job must be executed</h3>
+<h3 id="toc_4">Specify how much times a job must be executed</h3>
 
 <p>Instead of waiting for the job to return <code>false</code> to end it, it is possible to specify a number of times it as to be executed, with the key <code>count</code>:</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -87,7 +134,7 @@
 </pre>
 </div>
 
-<h3 id="toc_4">Catch a job end</h3>
+<h3 id="toc_5">Catch a job end</h3>
 
 <p>If an <code>end</code> function is specified, it will be executed when the job is ended or killed.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -103,7 +150,7 @@
 </pre>
 </div>
 
-<h3 id="toc_5">Queue jobs</h3>
+<h3 id="toc_6">Queue jobs</h3>
 
 <p>Adding an <code>after</code> string to a job will make it start only when a job with the specified id ends.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -123,9 +170,9 @@
 </pre>
 </div>
 
-<h3 id="toc_6">Weighted jobs</h3>
+<h3 id="toc_7">Weighted jobs</h3>
 
-<p>It is possible to weight jobs to modify the priorities. The default <code>weight</code> value is 1. In the following example, both <code>&quot;myJob1&quot;</code> and  <code>&quot;myJob2&quot;</code> last around 10ms. <code>&quot;myJob1&quot;</code> must be executed 10 times and <code>&quot;myJob2&quot;</code> 20. They will both end at the same time, because  <code>&quot;myJob2&quot;</code> as a <code>weight</code> of 2, and so will have twice more &quot;*computer time*&quot; than <code>&quot;myJob1&quot;</code>.</p>
+<p>It is possible to weight jobs to modify the priorities. The default <code>weight</code> value is 1. In the following example, both <code>&quot;myJob1&quot;</code> and  <code>&quot;myJob2&quot;</code> last around 10ms. <code>&quot;myJob1&quot;</code> must be executed 10 times and <code>&quot;myJob2&quot;</code> 20. They will both end at the same time, because  <code>&quot;myJob2&quot;</code> as a <code>weight</code> of 2, and so will have twice more &quot;computer time&quot; than <code>&quot;myJob1&quot;</code>.</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">executed1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nx">executed2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -150,7 +197,7 @@
 </pre>
 </div>
 
-<h3 id="toc_7">Kill jobs</h3>
+<h3 id="toc_8">Kill jobs</h3>
 
 <p><em>conrad</em> provides two different methods to kill manually jobs that are running.</p>
 <div class="highlight"><pre><span class="c1">// Kill one job:</span>
@@ -167,7 +214,7 @@
 </pre>
 </div>
 
-<h3 id="toc_8">Monitoring</h3>
+<h3 id="toc_9">Monitoring</h3>
 
 <p>There are two features dedicated to monitor what is happening in <em>conrad</em>. First, the method <code>conrad.getStats()</code> returns an array of jobs, with every data stored about them (average time per job, number of times the job has been executed yet, etc...):</p>
 <div class="highlight"><pre><span class="c1">// Getting all done jobs:</span>
@@ -244,7 +291,7 @@
 <li><code>enterFrame</code></li>
 </ul>
 
-<h3 id="toc_9">Some guidelines</h3>
+<h3 id="toc_10">Some guidelines</h3>
 
 <p>Here are some tips and guidelines about how and when to use <em>conrad</em>:</p>
 
@@ -254,7 +301,7 @@
 <li><em>conrad</em> works only with <code>window.setTimeout(fn, 0)</code> and does not use Web Workers (at least yet). It will work well until you call too often <code>window.setTimeout()</code> by yourself while <em>conrad</em> is running.</li>
 </ul>
 
-<h2 id="toc_10">Build</h2>
+<h2 id="toc_11">Build</h2>
 
 <p>To use it, clone the repository:</p>
 <pre><code>git clone git@github.com:jacomyal/conrad.js.git
@@ -271,7 +318,7 @@
 <li>Use <code>grunt</code> to check sources linting, launch unit tests, and minify the code with <a href="https://github.com/mishoo/UglifyJS">Uglify</a>.</li>
 </ul>
 
-<h2 id="toc_11">Contribute</h2>
+<h2 id="toc_12">Contribute</h2>
 
 <p><strong>Contributions are welcome!</strong> You can contribute by submitting <a href="http://github.com/jacomyal/conrad.js/issues">issues</a> and proposing <a href="http://github.com/jacomyal/conrad.js/pulls">pull requests</a>. Be sure to successfully run <code>grunt</code> <strong>before submitting any pull request</strong>, to check unit tests and sources lint.</p>
 
@@ -290,16 +337,119 @@
       </div>
     </div>
 
-            <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-42920104-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+    <!-- Example code -->
+    <script type="text/javascript" src="javascripts/conrad.js"></script>
+    <script type="text/javascript">
+      (function() {
+        function colorPixelJobFactory(canvas, color, count) {
+          var ctx = canvas.getContext('2d');
 
+          return function() {
+            ctx.fillStyle = color;
+
+            for (var i = count; i; i--)
+              ctx.fillRect(
+                Math.floor(canvas.width * Math.random()),
+                Math.floor(canvas.height * Math.random()),
+                1,
+                1
+              );
+
+            return true;
+          }
+        }
+
+        var jobs = {
+          canvas1: [
+            {
+              id: 'canvas1_white',
+              job: colorPixelJobFactory(document.getElementById('canvas1'), '#fff', 1000),
+            },
+            {
+              id: 'canvas1_black',
+              job: colorPixelJobFactory(document.getElementById('canvas1'), '#474747', 1000)
+            }
+          ],
+          canvas2: [
+            {
+              id: 'canvas2_white',
+              job: colorPixelJobFactory(document.getElementById('canvas2'), '#fff', 1000),
+              weight: 2
+            },
+            {
+              id: 'canvas2_black',
+              job: colorPixelJobFactory(document.getElementById('canvas2'), '#474747', 1000)
+            }
+          ],
+          canvas3: [
+            {
+              id: 'canvas3_white',
+              job: colorPixelJobFactory(document.getElementById('canvas3'), '#fff', 1000),
+              weight: 4
+            },
+            {
+              id: 'canvas3_black',
+              job: colorPixelJobFactory(document.getElementById('canvas3'), '#474747', 1000)
+            }
+          ]
+        };
+
+        // Bind "click" events:
+        var i,
+            l,
+            canvases = document.getElementsByTagName('canvas');
+
+        for (i = 0, l = canvases.length; i < l; i++) {
+          canvases[i].addEventListener('click', function(e) {
+            var a,
+                id = e.target.id;
+
+            if ((a = jobs[id].filter(function(o) { return conrad.hasJob(o.id); })).length)
+              conrad.killJob(a.map(function(o) { return o.id; }));
+            else
+              conrad.addJob(jobs[id]);
+          });
+        }
+
+        // Bind "resize" on window:
+        window.onresize = function() {
+          var i,
+              l,
+              id,
+              canvases = document.getElementsByTagName('canvas');
+
+          for (i = 0, l = canvases.length; i < l; i++) {
+            // Update width and height:
+            canvases[i].width = canvases[i].offsetWidth - 2;
+            canvases[i].height = canvases[i].offsetHeight - 2;
+
+            // Restart jobs that are stopped:
+            id = canvases[i].id;
+
+            if (!jobs[id].some(function(o) { return conrad.hasJob(o.id); }))
+              conrad.addJob(jobs[id]);
+          }
+        };
+
+        // Start all jobs:
+        for (var k in jobs)
+          conrad.addJob(jobs[k]);
+
+        // Call resize to initialize sizes:
+        window.onresize();
+      })();
+    </script>
+
+    <!-- Analytics -->
+    <script type="text/javascript">
+      var gaJsHost = ('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.';
+      document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker('UA-42920104-1');
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
   </body>
 </html>

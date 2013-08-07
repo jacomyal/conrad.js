@@ -12,16 +12,119 @@
       </div>
     </div>
 
-            <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-42920104-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+    <!-- Example code -->
+    <script type="text/javascript" src="javascripts/conrad.js"></script>
+    <script type="text/javascript">
+      (function() {
+        function colorPixelJobFactory(canvas, color, count) {
+          var ctx = canvas.getContext('2d');
 
+          return function() {
+            ctx.fillStyle = color;
+
+            for (var i = count; i; i--)
+              ctx.fillRect(
+                Math.floor(canvas.width * Math.random()),
+                Math.floor(canvas.height * Math.random()),
+                1,
+                1
+              );
+
+            return true;
+          }
+        }
+
+        var jobs = {
+          canvas1: [
+            {
+              id: 'canvas1_white',
+              job: colorPixelJobFactory(document.getElementById('canvas1'), '#fff', 1000),
+            },
+            {
+              id: 'canvas1_black',
+              job: colorPixelJobFactory(document.getElementById('canvas1'), '#474747', 1000)
+            }
+          ],
+          canvas2: [
+            {
+              id: 'canvas2_white',
+              job: colorPixelJobFactory(document.getElementById('canvas2'), '#fff', 1000),
+              weight: 2
+            },
+            {
+              id: 'canvas2_black',
+              job: colorPixelJobFactory(document.getElementById('canvas2'), '#474747', 1000)
+            }
+          ],
+          canvas3: [
+            {
+              id: 'canvas3_white',
+              job: colorPixelJobFactory(document.getElementById('canvas3'), '#fff', 1000),
+              weight: 4
+            },
+            {
+              id: 'canvas3_black',
+              job: colorPixelJobFactory(document.getElementById('canvas3'), '#474747', 1000)
+            }
+          ]
+        };
+
+        // Bind "click" events:
+        var i,
+            l,
+            canvases = document.getElementsByTagName('canvas');
+
+        for (i = 0, l = canvases.length; i < l; i++) {
+          canvases[i].addEventListener('click', function(e) {
+            var a,
+                id = e.target.id;
+
+            if ((a = jobs[id].filter(function(o) { return conrad.hasJob(o.id); })).length)
+              conrad.killJob(a.map(function(o) { return o.id; }));
+            else
+              conrad.addJob(jobs[id]);
+          });
+        }
+
+        // Bind "resize" on window:
+        window.onresize = function() {
+          var i,
+              l,
+              id,
+              canvases = document.getElementsByTagName('canvas');
+
+          for (i = 0, l = canvases.length; i < l; i++) {
+            // Update width and height:
+            canvases[i].width = canvases[i].offsetWidth - 2;
+            canvases[i].height = canvases[i].offsetHeight - 2;
+
+            // Restart jobs that are stopped:
+            id = canvases[i].id;
+
+            if (!jobs[id].some(function(o) { return conrad.hasJob(o.id); }))
+              conrad.addJob(jobs[id]);
+          }
+        };
+
+        // Start all jobs:
+        for (var k in jobs)
+          conrad.addJob(jobs[k]);
+
+        // Call resize to initialize sizes:
+        window.onresize();
+      })();
+    </script>
+
+    <!-- Analytics -->
+    <script type="text/javascript">
+      var gaJsHost = ('https:' == document.location.protocol) ? 'https://ssl.' : 'http://www.';
+      document.write(unescape('%3Cscript src="' + gaJsHost + 'google-analytics.com/ga.js" type="text/javascript"%3E%3C/script%3E'));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker('UA-42920104-1');
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
   </body>
 </html>

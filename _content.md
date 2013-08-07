@@ -6,8 +6,55 @@ Here is how it works:
 
  1. First, you need to cut your tasks as small jobs.
  2. These jobs are functions that will be executed many times to complete the task.
- 3. *conrad* will execute these jobs such that they each take the same "computation time".
+ 3. *conrad* will execute these jobs such that they each take the same CPU time.
  4. To avoid interface freezing, rendering frames are requested when needed.
+
+## Example
+
+Here is an example to illustrate how *conrad* works and what it does. Here are 3 canvases, each with two jobs: One drawing 1000 random bright pixels and the other one drawing 1000 random dark pixels.
+
+In the first canvas, both jobs have the same weight. In the second, the bright job has a weight of 2 (which makes the canvas brighter). Finally, in the third canvas, the bright job has a weight of 4 (which makes the canvas even brighter).
+
+Clicking a canvas will stop / start its jobs.
+
+<div id="canvases">
+  <canvas id="canvas1"></canvas>
+  <canvas id="canvas2"></canvas>
+  <canvas id="canvas3"></canvas>
+</div>
+
+<style>
+  #canvases canvas {
+    border: solid 1px #f2f2f2;
+  }
+
+  @media (min-width: 680px) {
+    #canvases {
+      text-align: center;
+    }
+
+    #canvases canvas {
+      width: 200px;
+      height: 200px;
+      margin-left: 5px;
+    }
+
+    #canvases canvas:first-child {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    #canvases canvas {
+      width: 100%;
+      height: 100px;
+      display: block;
+      margin-bottom: 3px;
+    }
+  }
+</style>
+
+Stopping the jobs of a canvas will free some CPU time, and the jobs that are still running will "go faster" (they will be executed more often)
 
 ## Documentation
 
