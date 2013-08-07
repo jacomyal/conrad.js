@@ -51,44 +51,9 @@
 
 <p>Clicking a canvas will stop / start its jobs.</p>
 
-<div id="canvases">
-  <canvas id="canvas1"></canvas>
-  <canvas id="canvas2"></canvas>
-  <canvas id="canvas3"></canvas>
-</div>
+<iframe width="100%" height="375" src="http://jsfiddle.net/jacomyal/NYzaN/1/embedded/result,js,html,css/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<style>
-  #canvases canvas {
-    border: solid 1px #f2f2f2;
-  }
-
-  @media (min-width: 680px) {
-    #canvases {
-      text-align: center;
-    }
-
-    #canvases canvas {
-      width: 200px;
-      height: 200px;
-      margin-left: 5px;
-    }
-
-    #canvases canvas:first-child {
-      margin-left: 0;
-    }
-  }
-
-  @media (max-width: 680px) {
-    #canvases canvas {
-      width: 100%;
-      height: 100px;
-      display: block;
-      margin-bottom: 3px;
-    }
-  }
-</style>
-
-<p>Stopping the jobs of a canvas will free some CPU time, and the jobs that are still running will &quot;go faster&quot; (they will be executed more often)</p>
+<p>Stopping the jobs of a canvas will free some CPU time, and the remaining jobs will &quot;go faster&quot; (they will be executed more often).</p>
 
 <h2 id="toc_1">Documentation</h2>
 
@@ -296,9 +261,9 @@
 <p>Here are some tips and guidelines about how and when to use <em>conrad</em>:</p>
 
 <ul>
-<li>To make <em>conrad</em> works well, jobs have to last less than the expected time of a frame - something like 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number a function calls.</li>
+<li>To make <em>conrad</em> work well, jobs have to last less than the expected time of a frame - around 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number of function calls.</li>
 <li>It is possible to use <em>conrad</em> to avoid interface freezing during drawing. Nevertheless, it should not be used to deal with animations, since the speed of the processing will strongly depends on the client computer power.</li>
-<li><em>conrad</em> works only with <code>window.setTimeout(fn, 0)</code> and does not use Web Workers (at least yet). It will work well until you call too often <code>window.setTimeout()</code> by yourself while <em>conrad</em> is running.</li>
+<li><em>conrad</em> works only with <code>window.setTimeout(fn, 0)</code> and does not use Web Workers. It will work well until you call too often <code>window.setTimeout()</code> by yourself while <em>conrad</em> is running.</li>
 </ul>
 
 <h2 id="toc_11">Build</h2>
@@ -337,108 +302,8 @@
       </div>
     </div>
 
-    <!-- Example code -->
+    <!-- Import conrad.js -->
     <script type="text/javascript" src="javascripts/conrad.js"></script>
-    <script type="text/javascript">
-      (function() {
-        function colorPixelJobFactory(canvas, color, count) {
-          var ctx = canvas.getContext('2d');
-
-          return function() {
-            ctx.fillStyle = color;
-
-            for (var i = count; i; i--)
-              ctx.fillRect(
-                Math.floor(canvas.width * Math.random()),
-                Math.floor(canvas.height * Math.random()),
-                1,
-                1
-              );
-
-            return true;
-          }
-        }
-
-        var jobs = {
-          canvas1: [
-            {
-              id: 'canvas1_white',
-              job: colorPixelJobFactory(document.getElementById('canvas1'), '#fff', 1000),
-            },
-            {
-              id: 'canvas1_black',
-              job: colorPixelJobFactory(document.getElementById('canvas1'), '#474747', 1000)
-            }
-          ],
-          canvas2: [
-            {
-              id: 'canvas2_white',
-              job: colorPixelJobFactory(document.getElementById('canvas2'), '#fff', 1000),
-              weight: 2
-            },
-            {
-              id: 'canvas2_black',
-              job: colorPixelJobFactory(document.getElementById('canvas2'), '#474747', 1000)
-            }
-          ],
-          canvas3: [
-            {
-              id: 'canvas3_white',
-              job: colorPixelJobFactory(document.getElementById('canvas3'), '#fff', 1000),
-              weight: 4
-            },
-            {
-              id: 'canvas3_black',
-              job: colorPixelJobFactory(document.getElementById('canvas3'), '#474747', 1000)
-            }
-          ]
-        };
-
-        // Bind "click" events:
-        var i,
-            l,
-            canvases = document.getElementsByTagName('canvas');
-
-        for (i = 0, l = canvases.length; i < l; i++) {
-          canvases[i].addEventListener('click', function(e) {
-            var a,
-                id = e.target.id;
-
-            if ((a = jobs[id].filter(function(o) { return conrad.hasJob(o.id); })).length)
-              conrad.killJob(a.map(function(o) { return o.id; }));
-            else
-              conrad.addJob(jobs[id]);
-          });
-        }
-
-        // Bind "resize" on window:
-        window.onresize = function() {
-          var i,
-              l,
-              id,
-              canvases = document.getElementsByTagName('canvas');
-
-          for (i = 0, l = canvases.length; i < l; i++) {
-            // Update width and height:
-            canvases[i].width = canvases[i].offsetWidth - 2;
-            canvases[i].height = canvases[i].offsetHeight - 2;
-
-            // Restart jobs that are stopped:
-            id = canvases[i].id;
-
-            if (!jobs[id].some(function(o) { return conrad.hasJob(o.id); }))
-              conrad.addJob(jobs[id]);
-          }
-        };
-
-        // Start all jobs:
-        for (var k in jobs)
-          conrad.addJob(jobs[k]);
-
-        // Call resize to initialize sizes:
-        window.onresize();
-      })();
-    </script>
 
     <!-- Analytics -->
     <script type="text/javascript">

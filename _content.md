@@ -17,44 +17,10 @@ In the first canvas, both jobs have the same weight. In the second, the bright j
 
 Clicking a canvas will stop / start its jobs.
 
-<div id="canvases">
-  <canvas id="canvas1"></canvas>
-  <canvas id="canvas2"></canvas>
-  <canvas id="canvas3"></canvas>
-</div>
+<iframe width="100%" height="375" src="http://jsfiddle.net/jacomyal/NYzaN/1/embedded/result,js,html,css/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<style>
-  #canvases canvas {
-    border: solid 1px #f2f2f2;
-  }
 
-  @media (min-width: 680px) {
-    #canvases {
-      text-align: center;
-    }
-
-    #canvases canvas {
-      width: 200px;
-      height: 200px;
-      margin-left: 5px;
-    }
-
-    #canvases canvas:first-child {
-      margin-left: 0;
-    }
-  }
-
-  @media (max-width: 680px) {
-    #canvases canvas {
-      width: 100%;
-      height: 100px;
-      display: block;
-      margin-bottom: 3px;
-    }
-  }
-</style>
-
-Stopping the jobs of a canvas will free some CPU time, and the jobs that are still running will "go faster" (they will be executed more often)
+Stopping the jobs of a canvas will free some CPU time, and the remaining jobs will "go faster" (they will be executed more often).
 
 ## Documentation
 
@@ -269,9 +235,9 @@ The events dispatched by *conrad* are:
 
 Here are some tips and guidelines about how and when to use *conrad*:
 
- - To make *conrad* works well, jobs have to last less than the expected time of a frame - something like 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number a function calls.
+ - To make *conrad* work well, jobs have to last less than the expected time of a frame - around 20ms. Also, it is adviced to design your jobs such that they are not too quick, to reduce the number of function calls.
  - It is possible to use *conrad* to avoid interface freezing during drawing. Nevertheless, it should not be used to deal with animations, since the speed of the processing will strongly depends on the client computer power.
- - *conrad* works only with `window.setTimeout(fn, 0)` and does not use Web Workers (at least yet). It will work well until you call too often `window.setTimeout()` by yourself while *conrad* is running.
+ - *conrad* works only with `window.setTimeout(fn, 0)` and does not use Web Workers. It will work well until you call too often `window.setTimeout()` by yourself while *conrad* is running.
 
 ## Build
 
