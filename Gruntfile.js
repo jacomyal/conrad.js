@@ -12,6 +12,13 @@ module.exports = function(grunt) {
         }
       }
     },
+    jshint: {
+      all: ['src/conrad.js'],
+      options: {
+        '-W055': true,
+        '-W040': true
+      }
+    },
     qunit: {
       all: {
         options: {
@@ -34,9 +41,10 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-closure-linter');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  // By default, will check lint, test and minify:
-  grunt.registerTask('default', ['closureLint', 'qunit', 'uglify']);
+  // By default, will check lint, hint, test and minify:
+  grunt.registerTask('default', ['closureLint', 'jshint', 'qunit', 'uglify']);
 };

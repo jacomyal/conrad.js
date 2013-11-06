@@ -179,7 +179,7 @@
     }
 
     return this;
-  };
+  }
 
   /**
    * Removes the handler from a specified event (or specified events).
@@ -227,7 +227,7 @@
         delete _handlers[eArray[i]];
 
     return this;
-  };
+  }
 
   /**
    * Executes each handler bound to the event.
@@ -263,16 +263,15 @@
     }
 
     return this;
-  };
+  }
 
   /**
    * Executes the most prioritary job once, and deals with filling the stats
    * (done, time, averageTime, currentTime, etc...).
    *
-   * @param  {Object}  job The job object.
    * @return {?Object} Returns the job object if it has to be killed, null else.
    */
-  function _executeFirstJob(job) {
+  function _executeFirstJob() {
     var i,
         l,
         test,
