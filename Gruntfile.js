@@ -47,5 +47,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // By default, will check lint, hint, test and minify:
-  grunt.registerTask('default', ['closureLint', 'jshint', 'qunit', 'uglify']);
+  grunt.registerTask('test', ['closureLint', 'jshint', 'qunit']);
+  grunt.registerTask('build', ['closureLint', 'jshint', 'qunit', 'uglify']);
 };
